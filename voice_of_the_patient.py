@@ -44,20 +44,22 @@ def record_audio(file_path, timeout=20, phrase_time_limit=None):
 import os
 from groq import Groq
 
-GROQ_API_KEY=os.environ.get("GROQ_API_KEY")
+GROQ_API_KEY = os.environ.get("GROQ_API_KEY")
+stt_model = "whisper-large-v3"
 
-stt_model="whisper-large-v3"
+def transcribe_with_groq(stt_model="whisper-large-v3", audio_filepath=None, GROQ_API_KEY=None):
+    if not audio_filepath or not os.path.exists(audio_filepath):
+        return ""
+    
+    api_key = GROQ_API_KEY or os.environ.get("GROQ_API_KEY")
+    if not api_key:
+        raise ValueError("GROQ_API_KEY is not set. Please provide a valid Groq API key.")
 
-def transcribe_with_groq(stt_model, audio_filepath, GROQ_API_KEY):
-    client=Groq(api_key=GROQ_API_KEY)
+    client = Groq(api_key=api_key)
 
-    audio_file=open(audio_filepath, "rb")
-    transcription=client.audio.transcriptions.create(
-        model=stt_model,
-        file=audio_file,
-        language="en"
-    )
+    with open(audio_filepath, "rb") as audio_file:
+        transcription = client.audio.transcriptions.create(
+            model=stt_model,
+            file=audio_file
+        )
     return transcription.text
-    
-
-    

@@ -1,7 +1,9 @@
-gradio
-groq
-gtts
-pydub
-python-dotenv
-ffmpeg-python
-SpeechRecognition
+gradio>=4.44.1
+groq>=0.9.0
+gtts>=2.5.0
+pydub>=0.25.1
+python-dotenv>=1.0.0
+ffmpeg-python>=0.2.0
+SpeechRecognition>=3.10.0
+huggingface-hub<0.26.0
+
