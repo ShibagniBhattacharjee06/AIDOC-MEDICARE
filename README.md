@@ -1,8 +1,22 @@
+---
+title: AIDOC MEDICARE
+emoji: 🩺
+colorFrom: teal
+colorTo: blue
+sdk: gradio
+sdk_version: 4.44.1
+app_file: app.py
+pinned: false
+license: mit
+short_description: Multimodal AI Doctor Assistant with Vision and Voice
+---
+
 # 🩺 AI Doctor Assistant
 
 An AI-powered multimodal healthcare assistant capable of understanding symptoms through voice conversations, analyzing medical images, and providing intelligent healthcare guidance through natural language and speech interactions.
 
 The AI Doctor Assistant serves as one of the core modules of the **Medicare Healthcare Ecosystem**, enabling accessible, conversational, and AI-driven healthcare support.
+
 
 ---
 
