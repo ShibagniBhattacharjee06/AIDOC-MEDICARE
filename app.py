@@ -137,7 +137,7 @@ with gr.Blocks(theme=theme, title="AI Doctor Assistant - Medicare") as demo:
             )
             with gr.Row():
                 submit_btn = gr.Button("🔬 Analyze Symptoms & Image", variant="primary")
-                clear_btn = gr.ClearButton(components=[audio_input, image_input], value="🗑️ Clear Inputs")
+                clear_btn = gr.Button("🗑️ Clear Inputs")
 
         with gr.Column(scale=1):
             gr.Markdown("### 🩺 Doctor Assessment & Voice Output")
@@ -157,12 +157,27 @@ with gr.Blocks(theme=theme, title="AI Doctor Assistant - Medicare") as demo:
                 type="filepath"
             )
 
+    def clear_all():
+        return None, None, "", "", None
+
+    clear_btn.click(
+        fn=clear_all,
+        inputs=[],
+        outputs=[audio_input, image_input, speech_output, doctor_text, doctor_voice],
+        show_api=False
+    )
+
     submit_btn.click(
         fn=process_inputs,
         inputs=[audio_input, image_input],
-        outputs=[speech_output, doctor_text, doctor_voice]
+        outputs=[speech_output, doctor_text, doctor_voice],
+        show_api=False
     )
 
 
 if __name__ == "__main__":
-    demo.launch(debug=True)
+    demo.launch(
+        server_name="0.0.0.0",
+        server_port=7860,
+        show_api=False
+    )
