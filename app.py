@@ -163,21 +163,14 @@ with gr.Blocks(theme=theme, title="AI Doctor Assistant - Medicare") as demo:
     clear_btn.click(
         fn=clear_all,
         inputs=[],
-        outputs=[audio_input, image_input, speech_output, doctor_text, doctor_voice],
-        show_api=False
+        outputs=[audio_input, image_input, speech_output, doctor_text, doctor_voice]
     )
 
     submit_btn.click(
         fn=process_inputs,
         inputs=[audio_input, image_input],
-        outputs=[speech_output, doctor_text, doctor_voice],
-        show_api=False
+        outputs=[speech_output, doctor_text, doctor_voice]
     )
 
 
-if __name__ == "__main__":
-    demo.launch(
-        server_name="0.0.0.0",
-        server_port=7860,
-        show_api=False
-    )
+demo.launch()
