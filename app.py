@@ -20,8 +20,29 @@ try:
 except Exception:
     pass
 
+# Patch Starlette TemplateResponse for Gradio 4 compatibility
+try:
+    from starlette.templating import Jinja2Templates
+    _orig_template_response = Jinja2Templates.TemplateResponse
+
+    def _safe_template_response(self, *args, **kwargs):
+        if len(args) >= 2 and isinstance(args[1], dict) and "request" in args[1] and "request" not in kwargs:
+            req = args[1]["request"]
+            tmpl_name = args[0]
+            ctx = args[1]
+            try:
+                return _orig_template_response(self, request=req, name=tmpl_name, context=ctx)
+            except TypeError:
+                pass
+        return _orig_template_response(self, *args, **kwargs)
+
+    Jinja2Templates.TemplateResponse = _safe_template_response
+except Exception:
+    pass
+
 from dotenv import load_dotenv
 load_dotenv()
+
 
 
 # VoiceBot UI with Gradio
