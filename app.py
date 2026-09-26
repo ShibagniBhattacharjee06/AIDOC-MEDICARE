@@ -134,9 +134,9 @@ def process_inputs(audio_filepath, image_filepath):
             query=patient_query,
             encoded_image=encode_image(image_filepath) if image_filepath else None,
             image_path=image_filepath,
-            groq_api_key=groq_api_key,
-            model="meta-llama/llama-4-scout-17b-16e-instruct"
+            groq_api_key=groq_api_key
         )
+
     except Exception as e:
         doctor_response = f"Error during medical analysis: {str(e)}"
 
