@@ -1,6 +1,28 @@
-# if you dont use pipenv uncomment the following:
+# Patch gradio_client bug with boolean schema properties in Python 3.13 / Pydantic v2
+try:
+    import gradio_client.utils as client_utils
+
+    _orig_json_schema_to_python_type = getattr(client_utils, "_json_schema_to_python_type", None)
+    if _orig_json_schema_to_python_type:
+        def _safe_json_schema_to_python_type(schema, defs=None):
+            if not isinstance(schema, dict):
+                return "Any"
+            return _orig_json_schema_to_python_type(schema, defs)
+        client_utils._json_schema_to_python_type = _safe_json_schema_to_python_type
+
+    _orig_get_type = getattr(client_utils, "get_type", None)
+    if _orig_get_type:
+        def _safe_get_type(schema):
+            if not isinstance(schema, dict):
+                return "Any"
+            return _orig_get_type(schema)
+        client_utils.get_type = _safe_get_type
+except Exception:
+    pass
+
 from dotenv import load_dotenv
 load_dotenv()
+
 
 # VoiceBot UI with Gradio
 import os
@@ -173,4 +195,8 @@ with gr.Blocks(theme=theme, title="AI Doctor Assistant - Medicare") as demo:
     )
 
 
-demo.launch()
+demo.launch(
+    server_name="0.0.0.0",
+    server_port=7860,
+    show_error=True
+)
